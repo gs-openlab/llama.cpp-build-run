@@ -2,31 +2,31 @@
 
 ## 题干
 
-1. 从源码编译 llama.cpp。不得使用官方提供的预编译压缩包（我们会检查你提交的编译日志）。把 configure 与 build 全过程的完整 stdout 保存为 build_log.txt，不要删改、不要截断。
-2. 用出题组提供的 Gemma 4 E2B 模型，使用你自己编译出来的 llama-cli 完成一次对话，提交：你使用的完整命令行、模型回答的第一句话、推理速度（tokens/s）。
+1. 从源码编译 llama.cpp。不得使用官方提供的预编译压缩包（我们会检查你提交的编译日志）。把 configure 与 build 全过程的完整 stdout 保存为 `build_log.txt`，不要删改、不要截断。
+2. 用出题组提供的 Gemma 4 E2B 模型，使用你自己编译出来的 `llama-cli` 完成一次对话，提交：你使用的完整命令行、模型回答的第一句话、推理速度（tokens/s）。
 3. 书面回答以下两个问题：
-- -n、-t、-ngl 三个参数分别控制什么？如果你把-t 改成1，会发生什么？
-- 如果你把-ngl 设成一个显存装不下的层数，会出现什么现象？
+- `-n`、`-t`、`-ngl` 三个参数分别控制什么？如果你把 `-t` 改成 `1`，会发生什么？
+- 如果你把 `-ngl` 设成一个显存装不下的层数，会出现什么现象？
 
 ### 加分项
-- 编译时开启GPU 后端（CUDA / Vulkan / Metal），并给出与CPU 推理的速度对比；
-- 编译并启动 llama-server，用curl 或一个网页调用它的接口（本地 127.0.0.1 即可，不必对公网开放）；
-- 用 llama-quantize 自己压出一个低比特版本（如Q2_K），与原始文件各跑一次同样的问题，解释为什么速度和输出质量会有差别；
+- 编译时开启 GPU 后端（CUDA / Vulkan / Metal），并给出与 CPU 推理的速度对比；
+- 编译并启动 `llama-server`，用 `curl` 或一个网页调用它的接口（本地 127.0.0.1 即可，不必对公网开放）；
+- 用 `llama-quantize` 自己压出一个低比特版本（如 `Q2_K`），与原始文件各跑一次同样的问题，解释为什么速度和输出质量会有差别；
 - 在不看教程的情况下，独立排查一次编译或运行报错，并说清你是怎么定位的。
 
 ### 提交要求
-1. 完整、未删改的 build_log.txt；
+1. 完整、未删改的 `build_log.txt`；
 2. 你使用的完整命令行、模型回答的第一句话、以及推理速度（tokens/s）的截图；
-3. 从 build_log.txt 里挑出三行你认为值得说明的，逐行解释它在做什么（可以是一行报错、一条编译选项，或一次编译器调用）；
+3. 从 `build_log.txt` 里挑出三行你认为值得说明的，逐行解释它在做什么（可以是一行报错、一条编译选项，或一次编译器调用）；
 4. 前面那两个参数问题的书面答案；
 5. 如果你完成了加分项，附上相应的截图或输出。
 
 ## 仓库目标
 维护一个脚本，在特定平台上（当前：macOS 27）：
-- 分别使用/不使用 GPU 后端，生成 build_log_{backend}.txt
-- 从 modelscope 幂等下载 Gemma 4 E2B GGUF Q4_0，使用 expect 模拟用户输入完成一次对话并记录数据，生成 chat_log_{backend}.txt
-- 在后台启动 GPU 后端 llama-server，使用curl调用chat completions API，生成 inference_log.txt
-- 从 modelscope 幂等下载 Gemma 4 E2B，用 llama-quantize --pure 压出 Q2_K，与原始文件各跑一次同样的问题
+- 分别使用/不使用 GPU 后端，生成 `build_log_{backend}.txt`
+- 从 modelscope 幂等下载 Gemma 4 E2B GGUF Q4_0，使用 `expect` 模拟用户输入完成一次对话并记录数据，生成 `chat_log_{backend}.txt`
+- 在后台启动 GPU 后端 `llama-server`，使用 `curl` 调用 chat completions API，生成 `inference_log.txt`
+- 从 modelscope 幂等下载 Gemma 4 E2B，用 `llama-quantize` 压出 `Q2_K`，与原始文件各跑一次同样的问题
 
 ## AI 使用披露
 本仓库未使用智能体编码。
