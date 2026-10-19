@@ -30,7 +30,8 @@ log "backend = $backend"
 # Set working directory to llama.cpp repo
 cd cache/llama.cpp
 
-# Build llama.cpp
+# Configure build
+rm -rf build
 case "$backend" in
     cpu)   cmake -B build -DGGML_METAL=OFF ;;
     metal) cmake -B build ;;
@@ -45,5 +46,6 @@ else
     CPU_COUNT=4
 fi
 
+# Build llama.cpp
 cmake --build build --config Release -j $CPU_COUNT
 
