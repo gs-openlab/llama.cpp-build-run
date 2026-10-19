@@ -35,5 +35,15 @@ case "$backend" in
     cpu)   cmake -B build -DGGML_METAL=OFF ;;
     metal) cmake -B build ;;
 esac
-cmake --build build --config Release -j $(nproc)
+
+## Cross-platform CPU count
+if command -v nproc &>/dev/null; then
+    CPU_COUNT=$(nproc)
+elif command -v sysctl &>/dev/null; then
+    CPU_COUNT=$(sysctl -n hw.ncpu)
+else
+    CPU_COUNT=4
+fi
+
+cmake --build build --config Release -j $CPU_COUNT
 
