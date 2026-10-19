@@ -1,0 +1,17 @@
+diff --git a/scripts/ui-assets.cmake b/scripts/ui-assets.cmake
+index dec34ebda..3a4a92f85 100644
+--- a/scripts/ui-assets.cmake
++++ b/scripts/ui-assets.cmake
+@@ -447,7 +447,11 @@ function(hf_download version out_var out_resolved)
+     list(APPEND candidates "latest")
+ 
+     foreach(resolved ${candidates})
+-        set(base "https://huggingface.co/buckets/${HF_BUCKET}/resolve/${resolved}")
++        if(DEFINED ENV{HF_ENDPOINT} AND NOT "$ENV{HF_ENDPOINT}" STREQUAL "")
++            set(base "$ENV{HF_ENDPOINT}/buckets/${HF_BUCKET}/resolve/${resolved}")
++        else()
++            set(base "https://huggingface.co/buckets/${HF_BUCKET}/resolve/${resolved}")
++        endif()
+ 
+         message(STATUS "UI: downloading from ${resolved}: ${base}/dist.tar.gz")
+ 
