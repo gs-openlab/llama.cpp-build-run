@@ -1,0 +1,8 @@
+#!/usr/bin/expect -f
+set timeout -1
+spawn {*}$argv
+expect -re {\r\n> $}
+send "I want to wash my car. The car wash is 50 meters away. Should I walk or drive?\r"
+expect -re {\r\n> $}
+send "/exit\r"
+expect eof
