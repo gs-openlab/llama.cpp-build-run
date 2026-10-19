@@ -22,8 +22,6 @@ cd cache/llama.cpp
     done
 cd ../..
 
-
-
 # Build llama.cpp for CPU and Metal backends
-bash build.sh --cpu | tee dist/build_log_cpu.txt
+bash build.sh --cpu | tee dist/build_log.txt
 bash build.sh --metal | tee dist/build_log_metal.txt

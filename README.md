@@ -23,7 +23,7 @@
 
 ## 仓库目标
 维护一个脚本，在特定平台上（当前：macOS 27）：
-- 分别使用/不使用 GPU 后端，生成 `build_log_{backend}.txt`
+- 分别使用/不使用 GPU 后端，生成 `build_log{_backend_if_not_cpu}.txt`
 - 从 modelscope 幂等下载 Gemma 4 E2B GGUF Q4_0，使用 `expect` 模拟用户输入完成一次对话并记录数据，生成 `chat_log_{backend}.txt`
 - 在后台启动 GPU 后端 `llama-server`，使用 `curl` 调用 chat completions API，生成 `inference_log.txt`
 - 从 modelscope 幂等下载 Gemma 4 E2B，用 `llama-quantize` 压出 `Q2_K`，与原始文件各跑一次同样的问题
