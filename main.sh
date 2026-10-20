@@ -51,6 +51,8 @@ trap "kill $llama_server_pid" EXIT
         -d '{"prompt":"I want to wash my car. The car wash is 50 meters away. Should I walk or drive?"}' \
         http://localhost:8080/v1/completions \
         -o dist/inference_result.txt
+# Cancel the EXIT trap before killing, so the PID wont be killed twice
+trap - EXIT
 kill $llama_server_pid
 
 # Quantize the model
