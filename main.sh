@@ -32,13 +32,13 @@ fi
 
 # Build llama.cpp for CPU and Metal backends and run llama-cli with expect
 bash build.sh --cpu | tee dist/build_log.txt
-expect -f chat.exp -- ./cache/llama.cpp/build/bin/llama-cli --model cache/gemma-4-E2B-it-Q4_0.gguf | tee dist/chat_log.txt
+expect -f chat.exp -- ./cache/llama.cpp/build/bin/llama-cli --model cache/gemma-4-E2B-it-Q4_0.gguf --temperature 0 | tee dist/chat_log.txt
 bash build.sh --metal | tee dist/build_log_metal.txt
-expect -f chat.exp -- ./cache/llama.cpp/build/bin/llama-cli --model cache/gemma-4-E2B-it-Q4_0.gguf -ngl 99 | tee dist/chat_log_metal.txt
+expect -f chat.exp -- ./cache/llama.cpp/build/bin/llama-cli --model cache/gemma-4-E2B-it-Q4_0.gguf -ngl 99 --temperature 0 | tee dist/chat_log_metal.txt
 
 # Run llama-server in the background and call it with curl
 # With llama-server running
-./cache/llama.cpp/build/bin/llama-server --model cache/gemma-4-E2B-it-Q4_0.gguf -ngl 99 --port 8080 --log-file dist/inference_log.txt &
+./cache/llama.cpp/build/bin/llama-server --model cache/gemma-4-E2B-it-Q4_0.gguf -ngl 99 --temperature 0 --port 8080 --log-file dist/inference_log.txt &
 llama_server_pid=$!
 trap "kill $llama_server_pid" EXIT
     ## Wait for llama-server to be ready
@@ -58,4 +58,4 @@ kill $llama_server_pid
 # Quantize the model
 ./cache/llama.cpp/build/bin/llama-quantize --allow-requantize cache/gemma-4-E2B-it-Q4_0.gguf cache/gemma-4-E2B-it-Q2_K.gguf Q2_K
 # Run quantized model
-expect -f chat.exp -- ./cache/llama.cpp/build/bin/llama-cli --model cache/gemma-4-E2B-it-Q2_K.gguf -ngl 99 -n 2048 | tee dist/chat_log_q2_k.txt
+expect -f chat.exp -- ./cache/llama.cpp/build/bin/llama-cli --model cache/gemma-4-E2B-it-Q2_K.gguf -ngl 99 --temperature 0 -n 2048 | tee dist/chat_log_q2_k.txt
