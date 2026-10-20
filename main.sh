@@ -58,4 +58,4 @@ kill $llama_server_pid
 # Quantize the model
 ./cache/llama.cpp/build/bin/llama-quantize --allow-requantize cache/gemma-4-E2B-it-Q4_0.gguf cache/gemma-4-E2B-it-Q2_K.gguf Q2_K
 # Run quantized model
-expect -f chat.exp -- ./cache/llama.cpp/build/bin/llama-cli --model cache/gemma-4-E2B-it-Q4_0.gguf -ngl 99 | tee dist/chat_log_q2_k.txt
+expect -f chat.exp -- ./cache/llama.cpp/build/bin/llama-cli --model cache/gemma-4-E2B-it-Q2_K.gguf -ngl 99 -n 2048 | tee dist/chat_log_q2_k.txt
